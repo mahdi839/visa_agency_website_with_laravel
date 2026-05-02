@@ -31,20 +31,31 @@ Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.sho
 
 /*
 |--------------------------------------------------------------------------
-| Authenticated Routes
+| Admin Routes (is_admin = true)
 |--------------------------------------------------------------------------
 */
 
 Route::get('/dashboard', function () {
     return view('admin_dashboard.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', 'admin'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
-    // Profile
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
+/*
+|--------------------------------------------------------------------------
+| Customer Routes (is_customer = true)
+|--------------------------------------------------------------------------
+*/
+
+Route::get('/customer/dashboard', function () {
+    return view('customer.dashboard');
+})->middleware(['auth', 'verified', 'customer'])->name('customer.dashboard');
+
+Route::middleware(['auth', 'customer'])->group(function () {
     // Client Portal - Visa Application Tracking
     Route::get('/portal', function () {
         return view('portal.index');
