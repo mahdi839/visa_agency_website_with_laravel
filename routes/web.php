@@ -36,7 +36,7 @@ Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.sho
 */
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    return view('admin_dashboard.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
