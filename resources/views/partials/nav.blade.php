@@ -12,8 +12,8 @@
             </svg>
             <div> 
                 <div class="nav-brand-name">
-                    EuroVisa</div>
-                <div class="nav-brand-sub">Consultancy</div>
+                    Durdesh Travel</div>
+                <div class="nav-brand-sub">Agency</div>
             </div>
         </a>
 

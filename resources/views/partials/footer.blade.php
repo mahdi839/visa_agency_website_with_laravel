@@ -12,7 +12,7 @@
                             </linearGradient>
                         </defs>
                     </svg>
-                    <div class="footer-brand-name">EuroVisa Consultancy</div>
+                    <div class="footer-brand-name">Durdesh Travel Agency</div>
                 </div>
                 <p class="footer-brand-desc">Licensed visa consultancy based in Barcelona, Spain. Serving clients from Bangladesh and across South Asia since 2019.</p>
                 <div class="footer-socials">
