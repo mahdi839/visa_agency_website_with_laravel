@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -40,9 +41,26 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified', 'admin'])->name('dashboard');
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    // Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // User Management (CRUD)
+    Route::resource('dashboard/users', UserController::class)->names([
+        'index'   => 'dashboard.users.index',
+        'create'  => 'dashboard.users.create',
+        'store'   => 'dashboard.users.store',
+        'show'    => 'dashboard.users.show',
+        'edit'    => 'dashboard.users.edit',
+        'update'  => 'dashboard.users.update',
+        'destroy' => 'dashboard.users.destroy',
+    ])->parameters(['users' => 'user']);
+
+    // User Quick Actions
+    Route::patch('dashboard/users/{user}/toggle-admin', [UserController::class, 'toggleAdmin'])->name('dashboard.users.toggle-admin');
+    Route::patch('dashboard/users/{user}/toggle-customer', [UserController::class, 'toggleCustomer'])->name('dashboard.users.toggle-customer');
+    Route::patch('dashboard/users/{user}/toggle-verify', [UserController::class, 'toggleVerify'])->name('dashboard.users.toggle-verify');
 });
 
 /*
