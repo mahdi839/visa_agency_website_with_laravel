@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\Dashboard\AboutUsController;
 use App\Http\Controllers\Dashboard\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +20,7 @@ Route::get('/services', function () {
     return view('services');
 })->name('services');
 
-Route::get('/about', function () {
-    return view('about');
-})->name('about');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 Route::get('/contact', function () {
     return view('contact');
@@ -56,6 +56,17 @@ Route::middleware(['auth', 'admin'])->group(function () {
         'update'  => 'dashboard.users.update',
         'destroy' => 'dashboard.users.destroy',
     ])->parameters(['users' => 'user']);
+
+    // About Us Management (CRUD)
+    Route::resource('dashboard/about-us', AboutUsController::class)->names([
+        'index'   => 'dashboard.about-us.index',
+        'create'  => 'dashboard.about-us.create',
+        'store'   => 'dashboard.about-us.store',
+        'show'    => 'dashboard.about-us.show',
+        'edit'    => 'dashboard.about-us.edit',
+        'update'  => 'dashboard.about-us.update',
+        'destroy' => 'dashboard.about-us.destroy',
+    ])->parameters(['about-us' => 'aboutUs']);
 
     // User Quick Actions
     Route::patch('dashboard/users/{user}/toggle-admin', [UserController::class, 'toggleAdmin'])->name('dashboard.users.toggle-admin');

@@ -185,8 +185,8 @@
                         </svg>
                         Services
                     </a>
-                    <a href="#"
-                       class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors duration-150">
+                    <a href="{{ route('dashboard.about-us.index') }}"
+                       class="{{ request()->routeIs('dashboard.about-us.*') ? 'bg-emerald-600/15 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]' }} sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150">
                         <svg class="w-[18px] h-[18px] shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
                         </svg>

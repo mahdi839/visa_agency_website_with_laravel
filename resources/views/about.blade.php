@@ -46,17 +46,17 @@
 @section('content')
 
 <section class="page-hero">
-    <span class="section-label">Who We Are</span>
-    <h1 class="page-hero-title">About EuroVisa</h1>
-    <p class="page-hero-sub">A licensed consultancy in Barcelona, dedicated to making European dreams a reality for South Asian applicants.</p>
+    <span class="section-label">{{ $about->hero_label ?? 'Who We Are' }}</span>
+    <h1 class="page-hero-title">{{ $about->title ?? 'About EuroVisa' }}</h1>
+    <p class="page-hero-sub">{{ $about->subtitle ?? 'A licensed consultancy in Barcelona, dedicated to making European dreams a reality for South Asian applicants.' }}</p>
 </section>
 
 <div class="about-body">
-    <h2>Our Story</h2>
-    <p>Founded in 2019, EuroVisa Consultancy has helped over 500 clients navigate the complex European visa system. Based in Barcelona, Spain, we specialize in serving applicants from Bangladesh and across South Asia.</p>
+    <h2>{{ $about->story_title ?? 'Our Story' }}</h2>
+    <p>{!! nl2br(e($about->story_body ?? 'Founded in 2019, EuroVisa Consultancy has helped over 500 clients navigate the complex European visa system. Based in Barcelona, Spain, we specialize in serving applicants from Bangladesh and across South Asia.')) !!}</p>
 
-    <h2>Our Mission</h2>
-    <p>We believe everyone deserves access to clear, professional visa guidance — without confusion or exploitation. Our team handles every case with full legal compliance and genuine care for each client's future.</p>
+    <h2>{{ $about->mission_title ?? 'Our Mission' }}</h2>
+    <p>{!! nl2br(e($about->mission_body ?? "We believe everyone deserves access to clear, professional visa guidance - without confusion or exploitation. Our team handles every case with full legal compliance and genuine care for each client's future.")) !!}</p>
 </div>
 
 @endsection
