@@ -37,4 +37,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(VisaApplication::class);
     }
+
+    public function messageThreads(): HasMany
+    {
+        return $this->hasMany(MessageThread::class);
+    }
+
+    public function threadMessages(): HasMany
+    {
+        return $this->hasMany(ThreadMessage::class, 'sender_id');
+    }
 }

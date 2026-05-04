@@ -117,13 +117,14 @@
             <div class="mt-6">
                 <p class="px-3 mb-2 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Support</p>
                 <div class="space-y-0.5">
-                    <a href="#"
-                       class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-colors duration-150">
+                    <a href="{{ route('portal.messages.index') }}"
+                       class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150
+                              {{ request()->routeIs('portal.messages.*') ? 'bg-emerald-50 text-emerald-700' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50' }}">
                         <svg class="w-[18px] h-[18px] shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 01.865-.501 48.172 48.172 0 003.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0012 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018z" />
                         </svg>
                         Messages
-                        <span class="ml-auto w-5 h-5 flex items-center justify-center text-[10px] font-bold bg-red-100 text-red-600 rounded-full">2</span>
+                        <span class="ml-auto w-5 h-5 flex items-center justify-center text-[10px] font-bold bg-red-100 text-red-600 rounded-full">{{ \App\Models\ThreadMessage::whereHas('thread', fn($q) => $q->where('user_id', auth()->id()))->where('is_admin', true)->whereNull('read_at')->count() }}</span>
                     </a>
                     <a href="#"
                        class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition-colors duration-150">

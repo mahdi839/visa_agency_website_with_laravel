@@ -4,11 +4,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Dashboard\AboutUsController;
 use App\Http\Controllers\Dashboard\BlogPostController as DashboardBlogPostController;
+use App\Http\Controllers\Dashboard\ContactSubmissionController as DashboardContactSubmissionController;
+use App\Http\Controllers\Dashboard\MessageThreadController as DashboardMessageThreadController;
 use App\Http\Controllers\Dashboard\ServiceController as DashboardServiceController;
 use App\Http\Controllers\Dashboard\VisaApplicationController as DashboardVisaApplicationController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Portal\MessageThreadController as PortalMessageThreadController;
 use App\Http\Controllers\Portal\VisaApplicationController as PortalVisaApplicationController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VisaApplicationController;
@@ -26,9 +30,8 @@ Route::get('/services', [ServiceController::class, 'index'])->name('services');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Blog Routes
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
@@ -93,6 +96,28 @@ Route::middleware(['auth', 'admin'])->group(function () {
         'destroy' => 'dashboard.services.destroy',
     ])->parameters(['services' => 'service']);
 
+    Route::resource('dashboard/contact-submissions', DashboardContactSubmissionController::class)
+        ->only(['index', 'show', 'update', 'destroy'])
+        ->names([
+            'index' => 'dashboard.contact-submissions.index',
+            'show' => 'dashboard.contact-submissions.show',
+            'update' => 'dashboard.contact-submissions.update',
+            'destroy' => 'dashboard.contact-submissions.destroy',
+        ])
+        ->parameters(['contact-submissions' => 'contactSubmission']);
+
+    Route::resource('dashboard/messages', DashboardMessageThreadController::class)
+        ->only(['index', 'show', 'update', 'destroy'])
+        ->names([
+            'index' => 'dashboard.messages.index',
+            'show' => 'dashboard.messages.show',
+            'update' => 'dashboard.messages.update',
+            'destroy' => 'dashboard.messages.destroy',
+        ])
+        ->parameters(['messages' => 'messageThread']);
+    Route::post('dashboard/messages/{messageThread}/reply', [DashboardMessageThreadController::class, 'reply'])
+        ->name('dashboard.messages.reply');
+
     Route::get('dashboard/visa-applications', [DashboardVisaApplicationController::class, 'index'])
         ->name('dashboard.visa-applications.index');
     Route::patch('dashboard/visa-applications/{visaApplication}/status', [DashboardVisaApplicationController::class, 'updateStatus'])
@@ -122,6 +147,12 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/portal/documents', function () {
         return view('portal.documents');
     })->name('portal.documents');
+
+    Route::get('/portal/messages', [PortalMessageThreadController::class, 'index'])->name('portal.messages.index');
+    Route::get('/portal/messages/create', [PortalMessageThreadController::class, 'create'])->name('portal.messages.create');
+    Route::post('/portal/messages', [PortalMessageThreadController::class, 'store'])->name('portal.messages.store');
+    Route::get('/portal/messages/{messageThread}', [PortalMessageThreadController::class, 'show'])->name('portal.messages.show');
+    Route::post('/portal/messages/{messageThread}/reply', [PortalMessageThreadController::class, 'reply'])->name('portal.messages.reply');
 });
 
 require __DIR__.'/auth.php';
