@@ -5,9 +5,12 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Dashboard\AboutUsController;
+use App\Http\Controllers\Dashboard\BlogPostController as DashboardBlogPostController;
+use App\Http\Controllers\Dashboard\ServiceController as DashboardServiceController;
 use App\Http\Controllers\Dashboard\VisaApplicationController as DashboardVisaApplicationController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Portal\VisaApplicationController as PortalVisaApplicationController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\VisaApplicationController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,9 +22,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('/services', function () {
-    return view('services');
-})->name('services');
+Route::get('/services', [ServiceController::class, 'index'])->name('services');
 
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 
@@ -71,6 +72,26 @@ Route::middleware(['auth', 'admin'])->group(function () {
         'update'  => 'dashboard.about-us.update',
         'destroy' => 'dashboard.about-us.destroy',
     ])->parameters(['about-us' => 'aboutUs']);
+
+    Route::resource('dashboard/blog-posts', DashboardBlogPostController::class)->names([
+        'index'   => 'dashboard.blog-posts.index',
+        'create'  => 'dashboard.blog-posts.create',
+        'store'   => 'dashboard.blog-posts.store',
+        'show'    => 'dashboard.blog-posts.show',
+        'edit'    => 'dashboard.blog-posts.edit',
+        'update'  => 'dashboard.blog-posts.update',
+        'destroy' => 'dashboard.blog-posts.destroy',
+    ])->parameters(['blog-posts' => 'blogPost']);
+
+    Route::resource('dashboard/services', DashboardServiceController::class)->names([
+        'index'   => 'dashboard.services.index',
+        'create'  => 'dashboard.services.create',
+        'store'   => 'dashboard.services.store',
+        'show'    => 'dashboard.services.show',
+        'edit'    => 'dashboard.services.edit',
+        'update'  => 'dashboard.services.update',
+        'destroy' => 'dashboard.services.destroy',
+    ])->parameters(['services' => 'service']);
 
     Route::get('dashboard/visa-applications', [DashboardVisaApplicationController::class, 'index'])
         ->name('dashboard.visa-applications.index');

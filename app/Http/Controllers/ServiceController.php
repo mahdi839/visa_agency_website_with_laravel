@@ -2,29 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BlogPost;
 use App\Models\Service;
 
-class HomeController extends Controller
+class ServiceController extends Controller
 {
     public function index()
     {
-        $latestPosts = BlogPost::published()
-            ->latest('published_at')
-            ->latest()
-            ->take(3)
-            ->get();
-
         $services = Service::published()
             ->orderBy('sort_order')
             ->latest()
-            ->take(6)
             ->get();
 
         if ($services->isEmpty()) {
             $services = Service::fallbackCollection();
         }
 
-        return view('home', compact('latestPosts', 'services'));
+        return view('services', compact('services'));
     }
 }

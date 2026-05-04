@@ -101,7 +101,7 @@
     .blog-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .blog-card { background: rgba(255,255,255,0.025); border: 1px solid rgba(255,255,255,0.07); border-radius: 14px; overflow: hidden; transition: all 0.3s ease; }
     .blog-card:hover { border-color: rgba(201,169,110,0.18); transform: translateY(-4px); box-shadow: 0 18px 50px rgba(0,0,0,0.28); }
-    .blog-thumb { height: 175px; display: flex; align-items: flex-end; padding: 14px; }
+    .blog-thumb { height: 175px; display: flex; align-items: flex-end; padding: 14px; background-size: cover; background-position: center; }
     .blog-thumb-1 { background: linear-gradient(135deg, #0F1D3A 0%, #1a2f5a 100%); }
     .blog-thumb-2 { background: linear-gradient(135deg, #1a1230 0%, #2a1a5a 100%); }
     .blog-thumb-3 { background: linear-gradient(135deg, #0d2a1a 0%, #0f3d25 100%); }
@@ -363,48 +363,27 @@
         </div>
 
         <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon icon-blue">✈️</div>
-                <div class="service-title">Schengen Visa</div>
-                <p class="service-desc">Travel across 27 European countries with a single visa. We prepare your complete file for tourist, business, or transit purposes.</p>
-                <a href="{{ route('services') }}" class="service-more">Learn more <span>→</span></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon icon-gold">💼</div>
-                <div class="service-title">Work Permit</div>
-                <p class="service-desc">Secure your legal right to work in Spain or other EU countries. We handle employer documentation and labor authority submissions.</p>
-                <a href="{{ route('services') }}" class="service-more">Learn more <span>→</span></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon icon-green">🎓</div>
-                <div class="service-title">Student Visa</div>
-                <p class="service-desc">Study at top European universities. We assist with enrollment verification, financial proofs, and visa applications.</p>
-                <a href="{{ route('services') }}" class="service-more">Learn more <span>→</span></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon icon-purple">👨‍👩‍👧</div>
-                <div class="service-title">Family Reunification</div>
-                <p class="service-desc">Bring your family to Europe. We handle spousal and dependent visas with the highest care and legal accuracy.</p>
-                <a href="{{ route('services') }}" class="service-more">Learn more <span>→</span></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon icon-orange">🏢</div>
-                <div class="service-title">Business Visa</div>
-                <p class="service-desc">Attend meetings, conferences, or explore business opportunities in Europe with a properly processed business visa.</p>
-                <a href="{{ route('services') }}" class="service-more">Learn more <span>→</span></a>
-            </div>
-            <div class="service-card">
-                <div class="service-icon icon-teal">📋</div>
-                <div class="service-title">Document Consulting</div>
-                <p class="service-desc">Not sure what you need? Our experts review your situation and provide a full checklist tailored to your visa type.</p>
-                <a href="{{ route('services') }}" class="service-more">Learn more <span>→</span></a>
-            </div>
-        </div>
-    </div>
+            @forelse($services as $index => $service)
+                @php($iconClass = ['icon-blue', 'icon-gold', 'icon-green', 'icon-purple', 'icon-orange', 'icon-teal'][$index % 6])
+                <div class="service-card">
+                    <div class="service-icon {{ $iconClass }}">{{ $service->icon ?: '?' }}</div>
+                    <div class="service-title">{{ $service->title }}</div>
+                    <p class="service-desc">{{ $service->description }}</p>
+                    <a href="{{ route('services') }}" class="service-more">Learn more <span>→</span></a>
+                </div>
+            @empty
+                <div class="service-card">
+                    <div class="service-icon icon-blue">?</div>
+                    <div class="service-title">Schengen Visa</div>
+                    <p class="service-desc">Travel across Europe with a complete visa file prepared by our expert team.</p>
+                    <a href="{{ route('services') }}" class="service-more">Learn more <span>→</span></a>
+                </div>
+            @endforelse
+        </div>    </div>
 </section>
 
 
-{{-- ── HOW IT WORKS ── --}}
+{{-- HOW IT WORKS ── --}}
 <section class="how-section">
     <div class="section-wrap">
         <div class="how-grid">
@@ -464,36 +443,33 @@
         </div>
 
         <div class="blog-grid">
-            <article class="blog-card">
-                <div class="blog-thumb blog-thumb-1"><span class="blog-tag">Schengen</span></div>
-                <div class="blog-body">
-                    <div class="blog-meta">Apr 28, 2026 &nbsp;·&nbsp; 5 min read</div>
-                    <div class="blog-title">New Schengen Rules 2026: What Bangladeshi Applicants Must Know</div>
-                    <a href="{{ route('blog.show', 1) }}" class="blog-read">Read Article <span>→</span></a>
-                </div>
-            </article>
-            <article class="blog-card">
-                <div class="blog-thumb blog-thumb-2"><span class="blog-tag">Work Permit</span></div>
-                <div class="blog-body">
-                    <div class="blog-meta">Apr 15, 2026 &nbsp;·&nbsp; 8 min read</div>
-                    <div class="blog-title">How to Get a Spain Work Permit from Bangladesh in 2026</div>
-                    <a href="{{ route('blog.show', 2) }}" class="blog-read">Read Article <span>→</span></a>
-                </div>
-            </article>
-            <article class="blog-card">
-                <div class="blog-thumb blog-thumb-3"><span class="blog-tag">Success Story</span></div>
-                <div class="blog-body">
-                    <div class="blog-meta">Apr 02, 2026 &nbsp;·&nbsp; 4 min read</div>
-                    <div class="blog-title">From Dhaka to Barcelona: Our Client's Journey to a New Life</div>
-                    <a href="{{ route('blog.show', 3) }}" class="blog-read">Read Article <span>→</span></a>
-                </div>
-            </article>
-        </div>
-    </div>
+            @forelse($latestPosts as $index => $post)
+                <article class="blog-card">
+                    <div class="blog-thumb {{ $post->feature_image ? '' : 'blog-thumb-'.(($index % 3) + 1) }}"
+                         @if($post->feature_image) style="background-image: linear-gradient(to top, rgba(6,12,26,0.7), rgba(6,12,26,0.05)), url('{{ asset('storage/'.$post->feature_image) }}')" @endif>
+                        <span class="blog-tag">Visa News</span>
+                    </div>
+                    <div class="blog-body">
+                        <div class="blog-meta">{{ ($post->published_at ?? $post->created_at)->format('M d, Y') }} &nbsp;·&nbsp; {{ max(1, ceil(str_word_count(strip_tags($post->description)) / 200)) }} min read</div>
+                        <div class="blog-title">{{ $post->title }}</div>
+                        <a href="{{ route('blog.show', $post) }}" class="blog-read">Read Article <span>→</span></a>
+                    </div>
+                </article>
+            @empty
+                <article class="blog-card">
+                    <div class="blog-thumb blog-thumb-1"><span class="blog-tag">Visa News</span></div>
+                    <div class="blog-body">
+                        <div class="blog-meta">Coming soon</div>
+                        <div class="blog-title">Fresh visa news and insights will appear here after publishing.</div>
+                        <a href="{{ route('blog.index') }}" class="blog-read">View Blog <span>→</span></a>
+                    </div>
+                </article>
+            @endforelse
+        </div>    </div>
 </section>
 
 
-{{-- ── TESTIMONIALS ── --}}
+{{-- TESTIMONIALS ── --}}
 <section class="testi-section">
     <div class="section-wrap">
         <div class="testi-header">
