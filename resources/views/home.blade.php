@@ -36,6 +36,30 @@
     .scroll-cue-text { color: rgba(255,255,255,0.25); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; }
     .scroll-cue-line { width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent); animation: scrollFade 2s ease-in-out infinite; }
     @keyframes scrollFade { 0%,100%{opacity:0.4} 50%{opacity:1} }
+    .application-modal { position: fixed; inset: 0; z-index: 250; display: none; align-items: center; justify-content: center; padding: 22px; background: rgba(0,0,0,0.64); backdrop-filter: blur(14px); }
+    .application-modal.open { display: flex; }
+    .application-panel { width: min(920px, 100%); max-height: 92vh; overflow-y: auto; background: #fff; color: #162033; border-radius: 18px; box-shadow: 0 28px 90px rgba(0,0,0,0.42); }
+    .application-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; padding: 24px 28px 18px; border-bottom: 1px solid #e5e7eb; }
+    .application-kicker { color: #a0784a; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 8px; }
+    .application-title { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 30px; line-height: 1.1; color: #0f172a; }
+    .application-close { width: 38px; height: 38px; border: 1px solid #e2e8f0; border-radius: 9px; background: #f8fafc; cursor: pointer; color: #475569; font-size: 24px; line-height: 1; }
+    .application-body { padding: 24px 28px 28px; }
+    .application-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .application-field { display: flex; flex-direction: column; gap: 7px; }
+    .application-field.full { grid-column: 1 / -1; }
+    .application-field label { font-size: 13px; font-weight: 700; color: #334155; }
+    .application-field input, .application-field select, .application-field textarea { width: 100%; border: 1px solid #cbd5e1; border-radius: 10px; padding: 11px 12px; color: #0f172a; background: #fff; font: inherit; font-size: 14px; outline: none; }
+    .application-field textarea { min-height: 106px; resize: vertical; }
+    .application-field input:focus, .application-field select:focus, .application-field textarea:focus { border-color: #c9a96e; box-shadow: 0 0 0 3px rgba(201,169,110,0.16); }
+    .auth-box { border: 1px solid #e2e8f0; background: #f8fafc; border-radius: 14px; padding: 16px; margin-bottom: 18px; }
+    .auth-tabs { display: inline-flex; padding: 3px; border: 1px solid #e2e8f0; background: #fff; border-radius: 10px; margin-bottom: 14px; }
+    .auth-tab { border: 0; background: transparent; border-radius: 8px; padding: 8px 14px; font-size: 13px; font-weight: 700; color: #64748b; cursor: pointer; }
+    .auth-tab.active { background: #0f172a; color: #fff; }
+    .application-errors { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; border-radius: 12px; padding: 12px 14px; margin-bottom: 16px; font-size: 13px; }
+    .application-actions { display: flex; align-items: center; justify-content: flex-end; gap: 12px; margin-top: 20px; }
+    .application-submit { border: 0; cursor: pointer; }
+    .application-cancel { border: 1px solid #cbd5e1; border-radius: 9px; background: #fff; color: #475569; font-size: 14px; font-weight: 700; padding: 13px 20px; cursor: pointer; }
+    body.modal-locked { overflow: hidden; }
 
     /* ── TRUST BAR ── */
     .trust-bar { background: #0A1225; border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04); padding: 16px 2rem; }
@@ -126,11 +150,20 @@
         .cta-btns { flex-direction: column; align-items: center; }
         .hero-stats { flex-wrap: wrap; gap: 20px; }
         .hero-stat + .hero-stat { border-left: none; padding-left: 0; margin-left: 0; }
+        .application-grid { grid-template-columns: 1fr; }
+        .application-head, .application-body { padding-left: 18px; padding-right: 18px; }
     }
 </style>
 @endpush
 
 @section('content')
+@php
+    $applicationCountries = [
+        'Australia', 'Austria', 'Belgium', 'Canada', 'Denmark', 'Finland', 'France', 'Germany', 'Greece', 'Hungary',
+        'Iceland', 'Italy', 'Luxembourg', 'Malta', 'Netherlands', 'Norway', 'Poland', 'Portugal', 'Spain', 'Sweden',
+        'Switzerland', 'United Kingdom', 'United States',
+    ];
+@endphp
 
 {{-- ── HERO ── --}}
 <section class="hero">
@@ -164,10 +197,10 @@
         </p>
 
         <div class="hero-cta">
-            <a href="{{ route('register') }}" class="btn-gold-lg">
+            <button type="button" class="btn-gold-lg application-open" style="border:0;cursor:pointer">
                 Start Your Application
                 <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </a>
+            </button>
             <a href="{{ route('services') }}" class="btn-outline-lg">Explore Services</a>
         </div>
 
@@ -193,6 +226,113 @@
     </div>
 </section>
 
+
+<div id="applicationModal" class="application-modal {{ $errors->any() ? 'open' : '' }}" role="dialog" aria-modal="true" aria-labelledby="applicationModalTitle">
+    <div class="application-panel">
+        <div class="application-head">
+            <div>
+                <p class="application-kicker">Application Request</p>
+                <h2 id="applicationModalTitle" class="application-title">Start your application</h2>
+            </div>
+            <button type="button" class="application-close application-close-btn" aria-label="Close application popup">&times;</button>
+        </div>
+
+        <form method="POST" action="{{ route('visa-applications.store') }}" enctype="multipart/form-data" class="application-body">
+            @csrf
+
+            @if($errors->any())
+                <div class="application-errors">
+                    @foreach($errors->all() as $error)
+                        <div>{{ $error }}</div>
+                    @endforeach
+                </div>
+            @endif
+
+            @guest
+                <div class="auth-box" data-auth-wrapper>
+                    <div class="auth-tabs">
+                        <button type="button" class="auth-tab" data-auth-tab="login">Log In</button>
+                        <button type="button" class="auth-tab" data-auth-tab="register">Register</button>
+                    </div>
+                    <input type="hidden" name="auth_mode" id="authMode" value="{{ old('auth_mode', 'login') }}">
+
+                    <div class="application-grid" data-auth-panel="register">
+                        <div class="application-field full">
+                            <label for="applicationName">Full Name</label>
+                            <input id="applicationName" type="text" name="name" value="{{ old('name') }}" autocomplete="name">
+                        </div>
+                    </div>
+
+                    <div class="application-grid">
+                        <div class="application-field">
+                            <label for="applicationEmail">Email Address</label>
+                            <input id="applicationEmail" type="email" name="email" value="{{ old('email') }}" autocomplete="email">
+                        </div>
+                        <div class="application-field">
+                            <label for="applicationPassword">Password</label>
+                            <input id="applicationPassword" type="password" name="password" autocomplete="current-password">
+                        </div>
+                        <div class="application-field" data-auth-panel="register">
+                            <label for="applicationPasswordConfirmation">Confirm Password</label>
+                            <input id="applicationPasswordConfirmation" type="password" name="password_confirmation" autocomplete="new-password">
+                        </div>
+                    </div>
+                </div>
+            @endguest
+
+            <div class="application-grid">
+                <div class="application-field">
+                    <label for="subject">Application Subject</label>
+                    <select id="subject" name="subject" required>
+                        <option value="">Select subject</option>
+                        @foreach(\App\Models\VisaApplication::SUBJECTS as $value => $label)
+                            <option value="{{ $value }}" @selected(old('subject') === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="application-field">
+                    <label for="country">Country</label>
+                    <input id="country" name="country" value="{{ old('country') }}" list="countryOptions" placeholder="Search and select country" required>
+                    <datalist id="countryOptions">
+                        @foreach($applicationCountries as $country)
+                            <option value="{{ $country }}"></option>
+                        @endforeach
+                    </datalist>
+                </div>
+
+                <div class="application-field full">
+                    <label for="description">Application Details</label>
+                    <textarea id="description" name="description" placeholder="Tell us what you need help with">{{ old('description') }}</textarea>
+                </div>
+
+                <div class="application-field">
+                    <label for="document">Document Image</label>
+                    <input id="document" type="file" name="document" accept="image/*">
+                </div>
+
+                <div class="application-field">
+                    <label for="urgency">Visa Urgency</label>
+                    <select id="urgency" name="urgency" required>
+                        @foreach(\App\Models\VisaApplication::URGENCIES as $value => $label)
+                            <option value="{{ $value }}" @selected(old('urgency', 'normal') === $value)>{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="application-field full">
+                    <label for="note">Note</label>
+                    <textarea id="note" name="note" placeholder="Anything else our team should know">{{ old('note') }}</textarea>
+                </div>
+            </div>
+
+            <div class="application-actions">
+                <button type="button" class="application-cancel application-close-btn">Cancel</button>
+                <button type="submit" class="btn-gold-lg application-submit">Submit Application</button>
+            </div>
+        </form>
+    </div>
+</div>
 
 {{-- ── TRUST BAR ── --}}
 <div class="trust-bar">
@@ -419,3 +559,62 @@
 </section>
 
 @endsection
+
+@push('scripts')
+<script>
+    (function () {
+        var modal = document.getElementById('applicationModal');
+        if (!modal) return;
+
+        var authMode = document.getElementById('authMode');
+        var authTabs = modal.querySelectorAll('[data-auth-tab]');
+        var registerPanels = modal.querySelectorAll('[data-auth-panel="register"]');
+
+        function openModal() {
+            modal.classList.add('open');
+            document.body.classList.add('modal-locked');
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            document.body.classList.remove('modal-locked');
+        }
+
+        function setAuthMode(mode) {
+            if (!authMode) return;
+            authMode.value = mode;
+            authTabs.forEach(function (tab) {
+                tab.classList.toggle('active', tab.dataset.authTab === mode);
+            });
+            registerPanels.forEach(function (panel) {
+                panel.style.display = mode === 'register' ? '' : 'none';
+            });
+        }
+
+        document.querySelectorAll('.application-open').forEach(function (button) {
+            button.addEventListener('click', openModal);
+        });
+
+        modal.querySelectorAll('.application-close-btn').forEach(function (button) {
+            button.addEventListener('click', closeModal);
+        });
+
+        modal.addEventListener('click', function (event) {
+            if (event.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && modal.classList.contains('open')) closeModal();
+        });
+
+        authTabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                setAuthMode(tab.dataset.authTab);
+            });
+        });
+
+        setAuthMode(authMode ? authMode.value : 'login');
+        if (modal.classList.contains('open')) document.body.classList.add('modal-locked');
+    })();
+</script>
+@endpush

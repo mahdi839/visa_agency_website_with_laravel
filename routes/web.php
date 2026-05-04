@@ -5,7 +5,10 @@ use App\Http\Controllers\AboutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\Dashboard\AboutUsController;
+use App\Http\Controllers\Dashboard\VisaApplicationController as DashboardVisaApplicationController;
 use App\Http\Controllers\Dashboard\UserController;
+use App\Http\Controllers\Portal\VisaApplicationController as PortalVisaApplicationController;
+use App\Http\Controllers\VisaApplicationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,6 +32,7 @@ Route::get('/contact', function () {
 // Blog Routes
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
+Route::post('/visa-applications', [VisaApplicationController::class, 'store'])->name('visa-applications.store');
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +72,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
         'destroy' => 'dashboard.about-us.destroy',
     ])->parameters(['about-us' => 'aboutUs']);
 
+    Route::get('dashboard/visa-applications', [DashboardVisaApplicationController::class, 'index'])
+        ->name('dashboard.visa-applications.index');
+    Route::patch('dashboard/visa-applications/{visaApplication}/status', [DashboardVisaApplicationController::class, 'updateStatus'])
+        ->name('dashboard.visa-applications.update-status');
+
     // User Quick Actions
     Route::patch('dashboard/users/{user}/toggle-admin', [UserController::class, 'toggleAdmin'])->name('dashboard.users.toggle-admin');
     Route::patch('dashboard/users/{user}/toggle-customer', [UserController::class, 'toggleCustomer'])->name('dashboard.users.toggle-customer');
@@ -86,13 +95,8 @@ Route::get('/customer/dashboard', function () {
 
 Route::middleware(['auth', 'customer'])->group(function () {
     // Client Portal - Visa Application Tracking
-    Route::get('/portal', function () {
-        return view('portal.index');
-    })->name('portal.index');
-
-    Route::get('/portal/application/{id}', function ($id) {
-        return view('portal.application', compact('id'));
-    })->name('portal.application');
+    Route::get('/portal', [PortalVisaApplicationController::class, 'index'])->name('portal.index');
+    Route::get('/portal/application/{visaApplication}', [PortalVisaApplicationController::class, 'show'])->name('portal.application');
 
     Route::get('/portal/documents', function () {
         return view('portal.documents');

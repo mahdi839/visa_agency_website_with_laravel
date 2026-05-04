@@ -120,13 +120,13 @@
             <div class="mt-6">
                 <p class="px-3 mb-2 text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Applications</p>
                 <div class="space-y-0.5">
-                    <a href="#"
-                       class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors duration-150">
+                    <a href="{{ route('dashboard.visa-applications.index') }}"
+                       class="{{ request()->routeIs('dashboard.visa-applications.*') ? 'bg-emerald-600/15 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]' }} sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150">
                         <svg class="w-[18px] h-[18px] shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                         </svg>
                         Visa Applications
-                        <span class="ml-auto text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-medium">24</span>
+                        <span class="ml-auto text-xs bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full font-medium">{{ \App\Models\VisaApplication::count() }}</span>
                     </a>
                     <a href="#"
                        class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors duration-150">
