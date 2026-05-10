@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BlogPost;
 use App\Models\Service;
+use App\Models\Testimonial;
 
 class HomeController extends Controller
 {
@@ -25,6 +26,12 @@ class HomeController extends Controller
             $services = Service::fallbackCollection();
         }
 
-        return view('home', compact('latestPosts', 'services'));
+        $testimonials = Testimonial::published()
+            ->orderBy('sort_order')
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('home', compact('latestPosts', 'services', 'testimonials'));
     }
 }

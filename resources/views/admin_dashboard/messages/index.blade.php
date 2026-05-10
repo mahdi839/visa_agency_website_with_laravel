@@ -2,9 +2,12 @@
 
 @section('content')
 <div class="p-4 sm:p-6 lg:p-8 space-y-6">
-    <div>
-        <h1 class="text-2xl font-bold text-slate-900">Customer Messages</h1>
-        <p class="text-sm text-slate-500 mt-1">Read customer portal messages and reply from the admin dashboard.</p>
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+            <h1 class="text-2xl font-bold text-slate-900">Customer Messages</h1>
+            <p class="text-sm text-slate-500 mt-1">Read customer portal messages and reply from the admin dashboard.</p>
+        </div>
+        <a href="{{ route('dashboard.messages.create') }}" class="px-4 py-2.5 bg-emerald-600 text-white text-sm font-medium rounded-lg hover:bg-emerald-700">Start Message</a>
     </div>
 
     <div class="bg-white rounded-xl border border-slate-200 p-4 sm:p-5">

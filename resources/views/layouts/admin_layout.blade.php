@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? 'Dashboard' }} — VistaEU Admin</title>
+    <title>{{ $title ?? 'Dashboard' }} — Durdesh Travel Agency</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -112,7 +112,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                     </svg>
                     Users
-                    <span class="ml-auto text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-medium">128</span>
+                    <span class="ml-auto text-xs bg-slate-700 text-slate-300 px-2 py-0.5 rounded-full font-medium">{{ \App\Models\User::count() }}</span>
                 </a>
             </div>
 
@@ -150,12 +150,19 @@
                         </svg>
                         Application Progress
                     </a>
-                    <a href="#"
-                       class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors duration-150">
+                    <a href="{{ route('dashboard.payments.index') }}"
+                       class="{{ request()->routeIs('dashboard.payments.*') ? 'bg-emerald-600/15 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]' }} sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150">
                         <svg class="w-[18px] h-[18px] shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5z" />
                         </svg>
                         Payments
+                    </a>
+                    <a href="{{ route('dashboard.personal-expenses.index') }}"
+                       class="{{ request()->routeIs('dashboard.personal-expenses.*') ? 'bg-emerald-600/15 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]' }} sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150">
+                        <svg class="w-[18px] h-[18px] shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-4.5-9.75h6.75a2.25 2.25 0 010 4.5H9.75a2.25 2.25 0 000 4.5h6.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Personal Expense
                     </a>
                     <a href="#"
                        class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors duration-150">
@@ -200,8 +207,8 @@
                         </svg>
                         About Us
                     </a>
-                    <a href="#"
-                       class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-slate-400 hover:text-white hover:bg-white/[0.06] transition-colors duration-150">
+                    <a href="{{ route('dashboard.testimonials.index') }}"
+                       class="{{ request()->routeIs('dashboard.testimonials.*') ? 'bg-emerald-600/15 text-emerald-400' : 'text-slate-400 hover:text-white hover:bg-white/[0.06]' }} sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150">
                         <svg class="w-[18px] h-[18px] shrink-0" fill="none" stroke="currentColor" stroke-width="1.75" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M10.34 15.84c-.688-.06-1.386-.09-2.09-.09H7.5a4.5 4.5 0 110-9h.75c.704 0 1.402-.03 2.09-.09m0 9.18c.253.962.584 1.892.985 2.783.247.55.06 1.21-.463 1.511l-.657.38a.75.75 0 01-1.021-.27l-.112-.194a8.965 8.965 0 01-1.1-4.39m5.158-7.274a8.965 8.965 0 014.39-1.1l.194-.112a.75.75 0 011.021.27l.38.657c.301.523.03 1.263-.511 1.463-.89.401-1.82.732-2.783.985m0 0a48.109 48.109 0 01-3.378.072 48.109 48.109 0 01-3.378-.072" />
                         </svg>

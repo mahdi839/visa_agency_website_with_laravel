@@ -47,4 +47,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(ThreadMessage::class, 'sender_id');
     }
+
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

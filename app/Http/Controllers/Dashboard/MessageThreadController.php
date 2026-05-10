@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\MessageThread;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -39,6 +40,38 @@ class MessageThreadController extends Controller
         $threads = $query->latest('last_message_at')->latest()->paginate(12)->withQueryString();
 
         return view('admin_dashboard.messages.index', compact('threads'));
+    }
+
+    public function create()
+    {
+        $customers = User::where('is_customer', true)->orderBy('name')->get(['id', 'name', 'email']);
+
+        return view('admin_dashboard.messages.create', compact('customers'));
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => ['required', 'exists:users,id'],
+            'subject' => ['required', 'string', 'max:255'],
+            'body' => ['required', 'string', 'max:5000'],
+        ]);
+
+        $thread = MessageThread::create([
+            'user_id' => $validated['user_id'],
+            'subject' => $validated['subject'],
+            'status' => 'open',
+            'last_message_at' => now(),
+        ]);
+
+        $thread->messages()->create([
+            'sender_id' => $request->user()->id,
+            'body' => $validated['body'],
+            'is_admin' => true,
+        ]);
+
+        return redirect()->route('dashboard.messages.show', $thread)
+            ->with('success', 'Message thread has been started.');
     }
 
     public function show(MessageThread $messageThread)

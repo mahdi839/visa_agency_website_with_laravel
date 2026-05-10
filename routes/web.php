@@ -9,7 +9,10 @@ use App\Http\Controllers\Dashboard\AboutUsController;
 use App\Http\Controllers\Dashboard\BlogPostController as DashboardBlogPostController;
 use App\Http\Controllers\Dashboard\ContactSubmissionController as DashboardContactSubmissionController;
 use App\Http\Controllers\Dashboard\MessageThreadController as DashboardMessageThreadController;
+use App\Http\Controllers\Dashboard\PaymentController as DashboardPaymentController;
+use App\Http\Controllers\Dashboard\PersonalExpenseController as DashboardPersonalExpenseController;
 use App\Http\Controllers\Dashboard\ServiceController as DashboardServiceController;
+use App\Http\Controllers\Dashboard\TestimonialController as DashboardTestimonialController;
 use App\Http\Controllers\Dashboard\VisaApplicationController as DashboardVisaApplicationController;
 use App\Http\Controllers\Dashboard\UserController;
 use App\Http\Controllers\Portal\MessageThreadController as PortalMessageThreadController;
@@ -107,9 +110,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->parameters(['contact-submissions' => 'contactSubmission']);
 
     Route::resource('dashboard/messages', DashboardMessageThreadController::class)
-        ->only(['index', 'show', 'update', 'destroy'])
+        ->only(['index', 'create', 'store', 'show', 'update', 'destroy'])
         ->names([
             'index' => 'dashboard.messages.index',
+            'create' => 'dashboard.messages.create',
+            'store' => 'dashboard.messages.store',
             'show' => 'dashboard.messages.show',
             'update' => 'dashboard.messages.update',
             'destroy' => 'dashboard.messages.destroy',
@@ -122,6 +127,21 @@ Route::middleware(['auth', 'admin'])->group(function () {
         ->name('dashboard.visa-applications.index');
     Route::patch('dashboard/visa-applications/{visaApplication}/status', [DashboardVisaApplicationController::class, 'updateStatus'])
         ->name('dashboard.visa-applications.update-status');
+
+    Route::resource('dashboard/payments', DashboardPaymentController::class)
+        ->except(['show'])
+        ->names('dashboard.payments')
+        ->parameters(['payments' => 'payment']);
+
+    Route::resource('dashboard/personal-expenses', DashboardPersonalExpenseController::class)
+        ->except(['show'])
+        ->names('dashboard.personal-expenses')
+        ->parameters(['personal-expenses' => 'personalExpense']);
+
+    Route::resource('dashboard/testimonials', DashboardTestimonialController::class)
+        ->except(['show'])
+        ->names('dashboard.testimonials')
+        ->parameters(['testimonials' => 'testimonial']);
 
     // User Quick Actions
     Route::patch('dashboard/users/{user}/toggle-admin', [UserController::class, 'toggleAdmin'])->name('dashboard.users.toggle-admin');

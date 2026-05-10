@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ $title ?? 'Home' }} — {{ config('app.name', 'VistaEU') }}</title>
+        <title>{{ $title ?? 'Home' }} — {{ config('app.name', 'Durdesh Travel Agency') }}</title>
         <meta name="description" content="{{ $description ?? 'Professional visa processing and immigration consultancy based in Spain.' }}">
 
         <!-- Fonts -->
@@ -211,7 +211,7 @@
             <!-- Bottom Bar -->
             <div class="border-t border-slate-800">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p class="text-xs text-slate-500">&copy; {{ date('Y') }} VistaEU. All rights reserved.</p>
+                    <p class="text-xs text-slate-500">&copy; {{ date('Y') }} Durdesh Travel Agency. All rights reserved.</p>
                     <div class="flex items-center gap-6">
                         <a href="#" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">Privacy Policy</a>
                         <a href="#" class="text-xs text-slate-500 hover:text-slate-300 transition-colors">Terms of Service</a>

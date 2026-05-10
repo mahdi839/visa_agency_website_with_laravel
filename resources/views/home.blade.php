@@ -12,7 +12,8 @@
     .hero-orb1 { position: absolute; top: 20%; right: 22%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(201,169,110,0.09), transparent 70%); border-radius: 50%; }
     .hero-orb2 { position: absolute; bottom: 20%; left: 15%; width: 240px; height: 240px; background: radial-gradient(circle, rgba(56,100,220,0.07), transparent 70%); border-radius: 50%; }
     .hero-badges { position: absolute; right: 5%; top: 22%; display: flex; flex-direction: column; gap: 14px; }
-    .country-badge { background: rgba(255,255,255,0.065); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); border-radius: 28px; padding: 8px 18px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); animation: floatY 4s ease-in-out infinite alternate; }
+    .country-badge { display: inline-flex; align-items: center; gap: 9px; background: rgba(255,255,255,0.065); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); border-radius: 28px; padding: 8px 18px 8px 10px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); animation: floatY 4s ease-in-out infinite alternate; }
+    .country-flag { width: 24px; height: 18px; border-radius: 4px; object-fit: cover; box-shadow: 0 0 0 1px rgba(255,255,255,0.16); }
     .country-badge:nth-child(2) { animation-delay: 0.4s; }
     .country-badge:nth-child(3) { animation-delay: 0.8s; }
     .country-badge:nth-child(4) { animation-delay: 1.2s; }
@@ -173,11 +174,11 @@
     <div class="hero-orb2"></div>
 
     <div class="hero-badges">
-        <div class="country-badge">🇪🇸 Spain</div>
-        <div class="country-badge">🇩🇪 Germany</div>
-        <div class="country-badge">🇫🇷 France</div>
-        <div class="country-badge">🇮🇹 Italy</div>
-        <div class="country-badge">🇳🇱 Netherlands</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/es.png" alt="Spain flag"> Spain</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/de.png" alt="Germany flag"> Germany</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/fr.png" alt="France flag"> France</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/it.png" alt="Italy flag"> Italy</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/nl.png" alt="Netherlands flag"> Netherlands</div>
     </div>
 
     <div class="hero-content" style="max-width:1200px;margin:0 auto;padding:0 2rem;width:100%">
@@ -477,6 +478,20 @@
             <h2 class="section-title">Trusted by Hundreds</h2>
         </div>
         <div class="testi-grid">
+            @forelse($testimonials as $testimonial)
+            <div class="testi-card">
+                <div class="testi-stars">{{ str_repeat('*', $testimonial->rating) }}</div>
+                <p class="testi-text">"{{ $testimonial->message }}"</p>
+                <div class="testi-footer">
+                    <div class="testi-avatar">{{ strtoupper(substr($testimonial->name, 0, 1)) }}</div>
+                    <div>
+                        <div class="testi-name">{{ $testimonial->name }}</div>
+                        @if($testimonial->location)<div class="testi-loc">{{ $testimonial->location }}</div>@endif
+                        @if($testimonial->visa_type)<div class="testi-visa">{{ $testimonial->visa_type }}</div>@endif
+                    </div>
+                </div>
+            </div>
+            @empty
             <div class="testi-card">
                 <div class="testi-stars">★★★★★</div>
                 <p class="testi-text">"I was nervous about the whole process but EuroVisa made it seamless. They guided me at every step and I got my work permit approved within 3 months!"</p>
@@ -513,6 +528,7 @@
                     </div>
                 </div>
             </div>
+            @endforelse
         </div>
     </div>
 </section>
