@@ -1,15 +1,7 @@
 <nav class="nav" id="mainNav">
     <div class="nav-inner">
         <a href="{{ route('home') }}" class="nav-brand">
-            <svg width="34" height="34" viewBox="0 0 36 36" fill="none">
-                <path d="M18 2L33 10V26L18 34L3 26V10L18 2Z" fill="url(#lg1)"/>
-                <path d="M12 18L16 22L24 14" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                <defs>
-                    <linearGradient id="lg1" x1="3" y1="2" x2="33" y2="34" gradientUnits="userSpaceOnUse">
-                        <stop stop-color="#C9A96E"/><stop offset="1" stop-color="#A0784A"/>
-                    </linearGradient>
-                </defs>
-            </svg>
+            <img class="site-logo" src="{{ asset('durdesh_logo.jpeg') }}" alt="Durdesh Travel Agency logo">
             <div> 
                 <div class="nav-brand-name">
                     Durdesh Travel</div>

@@ -99,7 +99,7 @@
                         <div class="info-icon">PH</div>
                         <div>
                             <div class="info-title">Phone & WhatsApp</div>
-                            <div class="info-text">+34 912 345 678<br>Response within business hours.</div>
+                            <div class="info-text">+880 1511 672172<br>Response within business hours.</div>
                         </div>
                     </div>
                     <div class="info-item">

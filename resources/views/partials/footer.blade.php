@@ -3,15 +3,7 @@
         <div class="footer-grid">
             <div>
                 <div class="footer-brand-row">
-                    <svg width="28" height="28" viewBox="0 0 36 36" fill="none">
-                        <path d="M18 2L33 10V26L18 34L3 26V10L18 2Z" fill="url(#lg2)"/>
-                        <path d="M12 18L16 22L24 14" stroke="white" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
-                        <defs>
-                            <linearGradient id="lg2" x1="3" y1="2" x2="33" y2="34" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#C9A96E"/><stop offset="1" stop-color="#A0784A"/>
-                            </linearGradient>
-                        </defs>
-                    </svg>
+                    <img class="footer-logo" src="{{ asset('durdesh_logo.jpeg') }}" alt="Durdesh Travel Agency logo">
                     <div class="footer-brand-name">Durdesh Travel Agency</div>
                 </div>
                 <p class="footer-brand-desc">Licensed visa consultancy based in Barcelona, Spain. Serving clients from Bangladesh and across South Asia since 2019.</p>
@@ -65,7 +57,7 @@
                 </div>
                 <div class="footer-contact-item">
                     <span class="footer-contact-icon">📞</span>
-                    <span class="footer-contact-text">+34 612 345 678</span>
+                    <span class="footer-contact-text">+880 1511 672172</span>
                 </div>
             </div>
         </div>

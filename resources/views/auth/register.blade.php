@@ -111,10 +111,19 @@
         animation: fadeUp 0.6s 0.4s ease both;
     }
     .auth-flag {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         background: rgba(255,255,255,0.05);
         border: 1px solid rgba(255,255,255,0.09);
         border-radius: 20px; padding: 6px 14px;
         font-size: 12px; color: rgba(255,255,255,0.55);
+    }
+    .auth-flag img {
+        width: 20px;
+        height: 15px;
+        border-radius: 3px;
+        object-fit: cover;
     }
 
     @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
@@ -316,11 +325,12 @@
             </div>
 
             <div class="auth-flags">
-                <span class="auth-flag">🇪🇸 Spain</span>
-                <span class="auth-flag">🇩🇪 Germany</span>
-                <span class="auth-flag">🇫🇷 France</span>
-                <span class="auth-flag">🇮🇹 Italy</span>
-                <span class="auth-flag">🇳🇱 Netherlands</span>
+                <span class="auth-flag"><img src="https://flagcdn.com/w40/rs.png" alt="Serbia flag"> Serbia</span>
+                <span class="auth-flag"><img src="https://flagcdn.com/w40/mk.png" alt="North Macedonia flag"> North Macedonia</span>
+                <span class="auth-flag"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal flag"> Portugal</span>
+                <span class="auth-flag"><img src="https://flagcdn.com/w40/mt.png" alt="Malta flag"> Malta</span>
+                <span class="auth-flag"><img src="https://flagcdn.com/w40/ro.png" alt="Romania flag"> Romania</span>
+                <span class="auth-flag"><img src="https://flagcdn.com/w40/ba.png" alt="Bosnia flag"> Bosnia</span>
             </div>
         </div>
     </div>

@@ -40,6 +40,7 @@
             height: 72px;
         }
         .nav-brand { display: flex; align-items: center; gap: 12px; }
+        .site-logo { display: block; width: 44px; height: 44px; border-radius: 8px; object-fit: contain; background: #fff; padding: 3px; }
         .nav-brand-name { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; font-weight: 700; color: #fff; line-height: 1; }
         .nav-brand-sub { font-size: 9px; color: #C9A96E; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; margin-top: 3px; }
         .nav-links { display: flex; align-items: center; gap: 32px; }
@@ -73,6 +74,7 @@
         .footer { background: #060C1A; border-top: 1px solid rgba(255,255,255,0.05); padding: 70px 0 28px; }
         .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; gap: 48px; margin-bottom: 56px; }
         .footer-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .footer-logo { display: block; width: 36px; height: 36px; border-radius: 7px; object-fit: contain; background: #fff; padding: 3px; }
         .footer-brand-name { font-family: 'Cormorant Garamond', serif; font-size: 17px; font-weight: 700; color: #fff; }
         .footer-brand-desc { color: rgba(255,255,255,0.25); font-size: 13px; line-height: 1.7; }
         .footer-socials { display: flex; gap: 10px; margin-top: 20px; }

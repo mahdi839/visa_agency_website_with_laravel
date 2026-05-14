@@ -18,6 +18,7 @@
     .country-badge:nth-child(3) { animation-delay: 0.8s; }
     .country-badge:nth-child(4) { animation-delay: 1.2s; }
     .country-badge:nth-child(5) { animation-delay: 1.6s; }
+    .country-badge:nth-child(6) { animation-delay: 2s; }
     @keyframes floatY { from { transform: translateY(0); } to { transform: translateY(-12px); } }
     .hero-content { position: relative; z-index: 2; max-width: 620px; }
     .hero-pill { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; animation: fadeUp 0.7s ease both; }
@@ -174,11 +175,12 @@
     <div class="hero-orb2"></div>
 
     <div class="hero-badges">
-        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/es.png" alt="Spain flag"> Spain</div>
-        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/de.png" alt="Germany flag"> Germany</div>
-        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/fr.png" alt="France flag"> France</div>
-        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/it.png" alt="Italy flag"> Italy</div>
-        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/nl.png" alt="Netherlands flag"> Netherlands</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/rs.png" alt="Serbia flag"> Serbia</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/mk.png" alt="North Macedonia flag"> North Macedonia</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/pt.png" alt="Portugal flag"> Portugal</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/mt.png" alt="Malta flag"> Malta</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/ro.png" alt="Romania flag"> Romania</div>
+        <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/ba.png" alt="Bosnia and Herzegovina flag"> Bosnia</div>
     </div>
 
     <div class="hero-content" style="max-width:1200px;margin:0 auto;padding:0 2rem;width:100%">
