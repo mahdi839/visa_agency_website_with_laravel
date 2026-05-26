@@ -6,7 +6,7 @@
 @push('styles')
 <style>
     /* ── HERO ── */
-    .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 9rem 2rem 5rem; overflow: hidden; }
+    .hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: stretch; padding: 7.5rem 2rem 5rem; overflow: hidden; }
     .hero-bg { position: absolute; inset: 0; background: linear-gradient(135deg, #060C1A 0%, #0A1225 55%, #0F1D3A 100%); }
     .hero-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(201,169,110,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(201,169,110,0.045) 1px, transparent 1px); background-size: 56px 56px; }
     .hero-orb1 { position: absolute; top: 20%; right: 22%; width: 360px; height: 360px; background: radial-gradient(circle, rgba(201,169,110,0.09), transparent 70%); border-radius: 50%; }
@@ -20,7 +20,21 @@
     .country-badge:nth-child(5) { animation-delay: 1.6s; }
     .country-badge:nth-child(6) { animation-delay: 2s; }
     @keyframes floatY { from { transform: translateY(0); } to { transform: translateY(-12px); } }
-    .hero-content { position: relative; z-index: 2; max-width: 620px; }
+    .hero-slider { position: relative; z-index: 2; width: min(1200px, 100%); aspect-ratio: 16 / 9; margin: 0 auto 48px; overflow: hidden; border-radius: 16px; border: 1px solid rgba(255,255,255,0.12); box-shadow: 0 30px 90px rgba(0,0,0,0.38); background: #0A1225; }
+    .hero-slider-track { position: relative; width: 100%; height: 100%; }
+    .hero-slide { position: absolute; inset: 0; opacity: 0; transform: scale(1.035); transition: opacity 0.8s ease, transform 1.2s ease; }
+    .hero-slide.active { opacity: 1; transform: scale(1); z-index: 1; }
+    .hero-slide img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; }
+    .hero-slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(6,12,26,0.44), rgba(6,12,26,0.08)); pointer-events: none; }
+    .hero-slider-btn { position: absolute; top: 50%; z-index: 3; width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.28); border-radius: 50%; background: rgba(6,12,26,0.58); color: #fff; cursor: pointer; transform: translateY(-50%); transition: background 0.2s ease, border-color 0.2s ease; }
+    .hero-slider-btn:hover { background: rgba(201,169,110,0.92); border-color: rgba(201,169,110,0.92); }
+    .hero-slider-prev { left: 18px; }
+    .hero-slider-next { right: 18px; }
+    .hero-slider-dots { position: absolute; left: 50%; bottom: 18px; z-index: 3; display: flex; align-items: center; gap: 9px; transform: translateX(-50%); }
+    .hero-slider-dot { width: 10px; height: 10px; border: 0; border-radius: 50%; background: rgba(255,255,255,0.42); cursor: pointer; padding: 0; transition: width 0.2s ease, border-radius 0.2s ease, background 0.2s ease; }
+    .hero-slider-dot.active { width: 28px; border-radius: 999px; background: #C9A96E; }
+    .hero-content { position: relative; z-index: 2; width: min(1200px, 100%); max-width: 1200px; margin: 18px auto 54px; padding: 0 2rem; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.75fr); gap: 56px; align-items: center; }
+    .hero-copy { max-width: 620px; }
     .hero-pill { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; animation: fadeUp 0.7s ease both; }
     .hero-pill-dot { width: 8px; height: 8px; border-radius: 50%; background: #C9A96E; animation: pulse 2s ease-in-out infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(0.85)} }
@@ -29,11 +43,19 @@
     .hero-title .accent { background: linear-gradient(135deg, #E8C98A 0%, #C9A96E 50%, #E07B39 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .hero-sub { color: rgba(255,255,255,0.55); font-size: 17px; line-height: 1.75; max-width: 480px; margin-bottom: 36px; animation: fadeUp 0.7s 0.2s ease both; }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
-    .hero-cta { display: flex; gap: 14px; margin-bottom: 52px; flex-wrap: wrap; animation: fadeUp 0.7s 0.3s ease both; }
-    .hero-stats { display: flex; animation: fadeUp 0.7s 0.4s ease both; }
+    .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; animation: fadeUp 0.7s 0.3s ease both; }
+    .hero-summary { animation: fadeUp 0.7s 0.35s ease both; }
+    .hero-summary-panel { background: rgba(255,255,255,0.055); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; padding: 28px; box-shadow: 0 22px 70px rgba(0,0,0,0.28); backdrop-filter: blur(14px); }
+    .hero-summary-label { color: #C9A96E; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 10px; }
+    .hero-summary-title { font-family: 'Cormorant Garamond', Georgia, serif; color: #fff; font-size: 30px; line-height: 1.12; font-weight: 700; margin-bottom: 12px; }
+    .hero-summary-text { color: rgba(255,255,255,0.5); font-size: 14px; line-height: 1.7; margin-bottom: 24px; }
+    .hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .hero-stat { min-height: 104px; display: flex; flex-direction: column; justify-content: center; padding: 18px 14px; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; background: rgba(6,12,26,0.38); }
     .hero-stat-num { font-family: 'Cormorant Garamond', serif; font-size: 34px; font-weight: 700; color: #fff; line-height: 1; }
     .hero-stat-label { color: rgba(255,255,255,0.35); font-size: 12px; margin-top: 5px; }
-    .hero-stat + .hero-stat { border-left: 1px solid rgba(255,255,255,0.1); padding-left: 28px; margin-left: 28px; }
+    .hero-summary-list { display: grid; gap: 10px; margin-top: 22px; }
+    .hero-summary-item { display: flex; align-items: center; gap: 10px; color: rgba(255,255,255,0.62); font-size: 13px; }
+    .hero-summary-check { width: 20px; height: 20px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; background: rgba(201,169,110,0.16); color: #E8C98A; }
     .scroll-cue { position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
     .scroll-cue-text { color: rgba(255,255,255,0.25); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; }
     .scroll-cue-line { width: 1px; height: 44px; background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent); animation: scrollFade 2s ease-in-out infinite; }
@@ -140,18 +162,28 @@
     /* ── PAGE-SPECIFIC RESPONSIVE ── */
     @media (max-width: 960px) {
         .hero-badges { display: none; }
+        .hero-slider { margin-bottom: 38px; }
+        .hero-content { grid-template-columns: 1fr; gap: 34px; }
+        .hero-copy { max-width: 720px; }
         .services-grid { grid-template-columns: 1fr 1fr; }
         .blog-grid { grid-template-columns: 1fr 1fr; }
         .testi-grid { grid-template-columns: 1fr; }
         .how-grid { grid-template-columns: 1fr; gap: 48px; }
     }
     @media (max-width: 600px) {
+        .hero { padding: 6.5rem 1rem 4rem; }
+        .hero-slider { border-radius: 12px; margin-bottom: 32px; }
+        .hero-content { margin-top: 10px; margin-bottom: 42px; padding: 0; }
+        .hero-summary-panel { padding: 20px; }
+        .hero-stats { grid-template-columns: 1fr; }
+        .hero-stat { min-height: auto; }
+        .hero-slider-btn { width: 38px; height: 38px; }
+        .hero-slider-prev { left: 10px; }
+        .hero-slider-next { right: 10px; }
         .services-grid, .blog-grid { grid-template-columns: 1fr; }
         .hero-cta { flex-direction: column; }
         .btn-gold-lg, .btn-outline-lg { justify-content: center; width: 100%; }
         .cta-btns { flex-direction: column; align-items: center; }
-        .hero-stats { flex-wrap: wrap; gap: 20px; }
-        .hero-stat + .hero-stat { border-left: none; padding-left: 0; margin-left: 0; }
         .application-grid { grid-template-columns: 1fr; }
         .application-head, .application-body { padding-left: 18px; padding-right: 18px; }
     }
@@ -168,7 +200,7 @@
 @endphp
 
 {{-- ── HERO ── --}}
-<section class="hero">
+<section id="home" class="hero">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
     <div class="hero-orb1"></div>
@@ -183,42 +215,81 @@
         <div class="country-badge"><img class="country-flag" src="https://flagcdn.com/w40/ba.png" alt="Bosnia and Herzegovina flag"> Bosnia</div>
     </div>
 
-    <div class="hero-content" style="max-width:1200px;margin:0 auto;padding:0 2rem;width:100%">
-        <div class="hero-pill">
-            <div class="hero-pill-dot"></div>
-            <span class="hero-pill-text">Licensed Consultancy · Barcelona, Spain</span>
+    <div class="hero-slider" data-hero-slider aria-label="Featured travel photos">
+        <div class="hero-slider-track">
+            @foreach(range(1, 6) as $slideNumber)
+                <div class="hero-slide {{ $slideNumber === 1 ? 'active' : '' }}" data-hero-slide>
+                    <img src="{{ asset('sliderPhotos/slider'.$slideNumber.'.jpeg') }}" alt="Durdesh Travel slider photo {{ $slideNumber }}">
+                </div>
+            @endforeach
         </div>
 
-        <h1 class="hero-title">
-            Your Gateway<br>
-            to <span class="accent">Europe</span><br>
-            Starts Here.
-        </h1>
+        <button type="button" class="hero-slider-btn hero-slider-prev" data-hero-prev aria-label="Previous slide">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button type="button" class="hero-slider-btn hero-slider-next" data-hero-next aria-label="Next slide">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
 
-        <p class="hero-sub">
-            Expert visa processing for Bangladesh and beyond. We handle Schengen, work permits, student visas, and family reunification — so you can focus on your future.
-        </p>
+        <div class="hero-slider-dots" aria-label="Choose slide">
+            @foreach(range(1, 6) as $slideNumber)
+                <button type="button" class="hero-slider-dot {{ $slideNumber === 1 ? 'active' : '' }}" data-hero-dot="{{ $slideNumber - 1 }}" aria-label="Show slide {{ $slideNumber }}"></button>
+            @endforeach
+        </div>
+    </div>
 
-        <div class="hero-cta">
-            <button type="button" class="btn-gold-lg application-open" style="border:0;cursor:pointer">
-                Start Your Application
-                <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-            </button>
-            <a href="{{ route('services') }}" class="btn-outline-lg">Explore Services</a>
+    <div class="hero-content">
+        <div class="hero-copy">
+            <div class="hero-pill">
+                <div class="hero-pill-dot"></div>
+                <span class="hero-pill-text">Licensed Consultancy · Barcelona, Spain</span>
+            </div>
+
+            <h1 class="hero-title">
+                Your Gateway<br>
+                to <span class="accent">Europe</span><br>
+                Starts Here.
+            </h1>
+
+            <p class="hero-sub">
+                Expert visa processing for Bangladesh and beyond. We handle Schengen, work permits, student visas, and family reunification — so you can focus on your future.
+            </p>
+
+            <div class="hero-cta">
+                <button type="button" class="btn-gold-lg application-open" style="border:0;cursor:pointer">
+                    Start Your Application
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                </button>
+                <a href="{{ route('services') }}" class="btn-outline-lg">Explore Services</a>
+            </div>
         </div>
 
-        <div class="hero-stats">
-            <div class="hero-stat">
-                <div class="hero-stat-num">500+</div>
-                <div class="hero-stat-label">Visas Approved</div>
-            </div>
-            <div class="hero-stat">
-                <div class="hero-stat-num">15+</div>
-                <div class="hero-stat-label">Countries</div>
-            </div>
-            <div class="hero-stat">
-                <div class="hero-stat-num">98%</div>
-                <div class="hero-stat-label">Success Rate</div>
+        <div class="hero-summary">
+            <div class="hero-summary-panel">
+                <div class="hero-summary-label">Trusted Visa Support</div>
+                <h2 class="hero-summary-title">Clear guidance from document check to final decision.</h2>
+                <p class="hero-summary-text">Our team prepares each file with careful review, country-specific advice, and steady communication throughout the process.</p>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">500+</div>
+                        <div class="hero-stat-label">Visas Approved</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">15+</div>
+                        <div class="hero-stat-label">Countries</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">98%</div>
+                        <div class="hero-stat-label">Success Rate</div>
+                    </div>
+                </div>
+
+                <div class="hero-summary-list">
+                    <div class="hero-summary-item"><span class="hero-summary-check">✓</span> Schengen, work, student, and family visas</div>
+                    <div class="hero-summary-item"><span class="hero-summary-check">✓</span> Document review before submission</div>
+                    <div class="hero-summary-item"><span class="hero-summary-check">✓</span> Application tracking and direct updates</div>
+                </div>
             </div>
         </div>
     </div>
@@ -556,6 +627,68 @@
 
 @push('scripts')
 <script>
+    (function () {
+        var slider = document.querySelector('[data-hero-slider]');
+        if (!slider) return;
+
+        var slides = Array.prototype.slice.call(slider.querySelectorAll('[data-hero-slide]'));
+        var dots = Array.prototype.slice.call(slider.querySelectorAll('[data-hero-dot]'));
+        var prev = slider.querySelector('[data-hero-prev]');
+        var next = slider.querySelector('[data-hero-next]');
+        var activeIndex = 0;
+        var intervalId;
+
+        function showSlide(index) {
+            activeIndex = (index + slides.length) % slides.length;
+
+            slides.forEach(function (slide, slideIndex) {
+                slide.classList.toggle('active', slideIndex === activeIndex);
+            });
+
+            dots.forEach(function (dot, dotIndex) {
+                dot.classList.toggle('active', dotIndex === activeIndex);
+            });
+        }
+
+        function startSlider() {
+            stopSlider();
+            intervalId = window.setInterval(function () {
+                showSlide(activeIndex + 1);
+            }, 4500);
+        }
+
+        function stopSlider() {
+            if (intervalId) window.clearInterval(intervalId);
+        }
+
+        if (prev) {
+            prev.addEventListener('click', function () {
+                showSlide(activeIndex - 1);
+                startSlider();
+            });
+        }
+
+        if (next) {
+            next.addEventListener('click', function () {
+                showSlide(activeIndex + 1);
+                startSlider();
+            });
+        }
+
+        dots.forEach(function (dot) {
+            dot.addEventListener('click', function () {
+                showSlide(Number(dot.dataset.heroDot));
+                startSlider();
+            });
+        });
+
+        slider.addEventListener('mouseenter', stopSlider);
+        slider.addEventListener('mouseleave', startSlider);
+
+        showSlide(0);
+        startSlider();
+    })();
+
     (function () {
         var modal = document.getElementById('applicationModal');
         if (!modal) return;
