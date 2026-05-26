@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', config('app.name', 'EuroVisa') . ' — Your Gateway to Europe')</title>
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <meta name="description" content="@yield('meta_description', 'Expert visa processing for Bangladesh and beyond. Schengen, work permits, student visas processed from Spain.')">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

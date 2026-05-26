@@ -6,6 +6,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title>{{ $title ?? 'Home' }} — {{ config('app.name', 'Durdesh Travel Agency') }}</title>
+        <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
         <meta name="description" content="{{ $description ?? 'Professional visa processing and immigration consultancy based in Spain.' }}">
 
         <!-- Fonts -->
